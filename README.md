@@ -5,13 +5,13 @@ Instructions to Execute PhantomJS Script:
 
 Copy this folder (FilterBubble_MyViewOnWeb_PhantomJS) into PhantomJS directory e.g C > Users > Awais > Phantom2.5 >
 
-This folder has a subfolder named "Input" which contains the search terms in txt file. You can add your own files into the folder "Input".
+This folder has a subfolder named "Input" which contains the search terms in JSON format file. You can add your own files into the folder "Input".
 
 You just have to specify your input file name while you run this Phantomjs Script using CMD.
 
-To execute the script, open command prompt inside "FilterBubble_MyViewOnWeb_PhantomJS" folder. Now you have to pass two parameters.
+To execute the script, open command prompt inside "FilterBubble_MyViewOnWeb_PhantomJS" folder. Now you have to pass three parameters.
 
-First, Phantom script name and second, the name of files containing queries.
+First, Phantom script name, second, the name of files containing input e.g. queries and third, the file containing configuration information.
 
 Note that you do not need to pass the complete path of input file as parameter. Only file name will suffice.
 
@@ -19,7 +19,7 @@ Note that you do not need to pass the complete path of input file as parameter. 
 
 Type the following command into CMD
 
-	phantomjs GoogleSearchV2.js SearchKeywords.txt
+	phantomjs webSearchAutomator.js --task=taskA.json --config=config.json
 	
 Wait for 2-3 minutes to let the script be executed completely.
 

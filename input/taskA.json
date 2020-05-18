@@ -1,0 +1,19 @@
+{ 
+
+    "name": "taskA", 
+
+    "description": "Google search with cookies disabled", 
+
+    "script": "googleSearchNoCookies.js", 
+
+    "input": [ "Brexit", "Ireland", "Pakistan" ],
+	
+	"output":{  
+	
+      "SERPscreenshots": true, 
+	  
+      "SERPurls": false
+	  
+    } 
+
+} 
