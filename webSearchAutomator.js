@@ -1,98 +1,105 @@
-
-var webPage = require('webpage');
-var page = webPage.create();
-
-
-var fs = require('fs');
-system = require('system');
-
-var arg1=system.args[1];
-var arg2=system.args[2];
-
-if (system.args.length === 2) {
-  console.log('Argument Missing! Please pass both the input file and the configuration file');
-  phantom.exit(0);
-}
-else
+var system = require('system'),
+	fs = require('fs'),
+	webPage,page,arg1,arg2,res1,res2,
+	script_call,filtered_input1,filtered_input2;
+	createPage();
+	
+function createPage()
 {
-	console.log('Input passed');
-}
-
-
-var res1 = arg1.split("=");
-var res2= arg2.split("=");
-
-if(res1[0]=="--task")
-{
-	inputfile=res1[1];
-	if(res2[0]=="--config")
-	{
-		configfile=res2[1];
-	}
-	else
-	{
-		console.log('Invalid Input! Please try again');
-		phantom.exit(0);
-	}	
-}
-else if (res1[0]=="--config")
-{
-	configfile=res1[1];
-	if(res2[0]=="--task")
-	{
-		inputfile=res2[1];
-	}
-	else
-	{
-		console.log('Invalid Input! Please try again');
-		phantom.exit(0);
-	}
+	webPage = require('webpage');
+	page = webPage.create();
+	getUserInput();
 	
 }
-else
+
+function getUserInput()
 {
-	console.log('Invalid Input! Please try again');
-	phantom.exit(0);
+	arg1=system.args[1],
+	arg2=system.args[2];
+	if (system.args.length === 2) {
+		console.log('Argument Missing! Please pass both the input file and the configuration file');
+		phantom.exit(0);
+	}
+	else
+	{
+		filterAndCheckUserInput();
+	}
+	
+	
 }
 
-var stream = fs.open('input/'+inputfile,'r');
+function filterAndCheckUserInput()
+{
+	filtered_input1 = arg1.split("=");
+	filtered_input2= arg2.split("=");
 
-var data = stream.read(); 
-var config = JSON.parse(data); 
+	if(filtered_input1[0]=="--task")
+	{
+		inputfile=filtered_input1[1];
+		if(filtered_input2[0]=="--config")
+		{
+			configfile=filtered_input2[1];
+			readTaskFile();
+		}
+		else
+		{
+			console.log('Invalid Input! Please try again');
+			phantom.exit(0);
+		}	
+	}
+	else if (filtered_input1[0]=="--config")
+	{
+		configfile=filtered_input1[1];
+		if(res2[0]=="--task")
+		{
+			inputfile=filtered_input2[1];
+			readTaskFile();
+		}
+		else
+		{
+			console.log('Invalid Input! Please try again');
+			phantom.exit(0);
+		}
+	
+	}
+	else
+	{
+		console.log('Invalid Input! Please try again');
+		phantom.exit(0);
+	}
+}
+	
+function readTaskFile()
+{
+	var stream_task = fs.open('input/'+inputfile,'r');
+	var data_task = stream_task.read(); 
+	var config_task = JSON.parse(data_task); 
+	window.name=config_task.name;
+	window.description=config_task.description;
+	window.script=config_task.script;
+	window.input=config_task.input;
+	window.output=config_task.output;
+	window.SERPscreenshots=output.SERPscreenshots;
+	window.SERPurls=output.SERPurls;
+	stream_task.close();
+	readConfigFile();
+}
 
-window.name=config.name;
-window.description=config.description;
-window.script=config.script;
-window.input=config.input;
-window.output=config.output;
-window.SERPscreenshots=output.SERPscreenshots;
-window.SERPurls=output.SERPurls;
-//window.output=config.output;
+function readConfigFile()
+{
+	var stream_config = fs.open(configfile,'r');
+	var data_config = stream_config.read(); 
+	var config_c = JSON.parse(data_config); 
+	window.timestampFormat=config_c.timestampFormat;
+	window.version=config_c.version;
+	stream_config.close();
+	callScript();
+}
 
-stream.close();
-
-console.log("name: " + name);
-console.log('description:'+description);
-console.log("script: " + script);
-console.log('input:'+input);
-console.log('SERPscreenshots:'+SERPscreenshots);
-console.log('SERPurls:'+SERPurls);
-
-var stream_config = fs.open(configfile,'r');
-
-var data_config = stream_config.read(); 
-var config_c = JSON.parse(data_config); 
-
-
-window.timestampFormat=config_c.timestampFormat;
-window.version=config_c.version;
-stream_config.close();
-
-console.log('***********************************');
-console.log('Welcome to the version '+version+' of webSearchAutomator');
-console.log('***********************************');
-
-var search = require("./"+script);
-
-
-
+function callScript()
+{
+	console.log('*****************************************************');
+	console.log('Welcome to version '+version+' of the webSearchAutomator');
+	console.log('*****************************************************');
+	script_call = require("./"+script);	
+}
