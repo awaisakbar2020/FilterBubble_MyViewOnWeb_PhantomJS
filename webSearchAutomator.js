@@ -98,8 +98,13 @@ function readConfigFile()
 
 function callScript()
 {
-	console.log('*****************************************************');
-	console.log('Welcome to version '+version+' of the webSearchAutomator');
-	console.log('*****************************************************');
+	console.log('******************************************************');
+	console.log('Welcome to version '+version+' of the Web Search Automator');
+	console.log('******************************************************');
+	console.log("Your task details are as follows:");
+	console.log("Task Name: "+window.name);
+	console.log("Task Description: "+window.description);
+	console.log("Search Terms: "+window.input);
+	console.log("Google search has been started. Please wait.......");
 	script_call = require("./"+script);	
 }

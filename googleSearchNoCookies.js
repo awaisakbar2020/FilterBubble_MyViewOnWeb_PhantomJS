@@ -95,6 +95,7 @@ page.onLoadFinished = function(status) {
 			if(SERPscreenshots){
 				page.render(output_format+sx+'.png');
 			}
+		phantom.clearCookies();
 		sx++;
 		}
 
@@ -113,7 +114,7 @@ page.onLoadFinished = function(status) {
     }
 	else 
 	{
-		phantom.exit();
+		phantom.exit(0);
 	}	
 }
 
