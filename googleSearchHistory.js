@@ -7,7 +7,7 @@ var fs = require("fs"),
 	
 function createPage()
 {
-	webpage = require("webpage");
+	webPage = require("webpage");
 	page = webPage.create();
 	createTimeStampFormat(timestampFormat);
 

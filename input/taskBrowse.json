@@ -1,12 +1,16 @@
 { 
 
-    "name": "taskA", 
+    "name": "taskBrowse", 
 
     "description": "Google search with cookies disabled", 
 
-    "script": "googleSearchNoCookies.js", 
+    "script": "googleBrowseHistory.js", 
+	
+	"pageLimit": 1,
+	
+	"depthLimit": 1,
 
-    "input": [ "Brexit", "Ireland", "Pakistan" ],
+    "input": [ "www.geo.tv", "www.arynews.tv" ],
 	
 	"output":{  
 	

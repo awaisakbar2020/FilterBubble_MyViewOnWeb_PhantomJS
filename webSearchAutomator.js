@@ -74,6 +74,7 @@ function readTaskFile()
 	var stream_task = fs.open('input/'+inputfile,'r');
 	var data_task = stream_task.read(); 
 	var config_task = JSON.parse(data_task); 
+	
 	window.name=config_task.name;
 	window.description=config_task.description;
 	window.script=config_task.script;
@@ -81,6 +82,14 @@ function readTaskFile()
 	window.output=config_task.output;
 	window.SERPscreenshots=output.SERPscreenshots;
 	window.SERPurls=output.SERPurls;
+	
+	if(config_task.script=="googleBrowseHistory.js")
+	{
+		window.pageLimit=config_task.pageLimit;
+		window.depthLimit=config_task.depthLimit;
+		
+	}
+	
 	stream_task.close();
 	readConfigFile();
 }
