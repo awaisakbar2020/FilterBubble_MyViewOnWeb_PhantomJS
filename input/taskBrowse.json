@@ -4,7 +4,7 @@
 
     "description": "Google search with cookies disabled", 
 
-    "script": "googleBrowseHistory.js", 
+    "script": "browseHistory.js", 
 	
 	"pageLimit": 1,
 	

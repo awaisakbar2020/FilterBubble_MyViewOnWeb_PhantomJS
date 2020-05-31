@@ -4,7 +4,9 @@
 
     "description": "Google search with cookies disabled", 
 
-    "script": "googleSearchNoCookies.js", 
+    "script": "searchHistory.js", 
+	
+	"pageLimit": 1,
 
     "input": [ "Brexit", "Ireland", "Pakistan" ],
 	

@@ -8,6 +8,7 @@ function createPage()
 {
 	webPage = require("webpage");
 	page = webPage.create();
+	page.viewportSize = { width: 1280, height: 800 };
 	createTimeStampFormat(timestampFormat);
 
 }

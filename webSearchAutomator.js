@@ -82,11 +82,19 @@ function readTaskFile()
 	window.output=config_task.output;
 	window.SERPscreenshots=output.SERPscreenshots;
 	window.SERPurls=output.SERPurls;
+	window.pageLimit=config_task.pageLimit;
 	
-	if(config_task.script=="googleBrowseHistory.js")
+	if(config_task.script=="browseHistory.js")
 	{
-		window.pageLimit=config_task.pageLimit;
+
 		window.depthLimit=config_task.depthLimit;
+		
+	}
+	
+	if(config_task.script=="clickHistory.js")
+	{
+
+		window.clicks=config_task.clicks;
 		
 	}
 	
