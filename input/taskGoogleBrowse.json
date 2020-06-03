@@ -1,14 +1,16 @@
 { 
 
-    "name": "taskSearch", 
+    "name": "taskGoogleBrowse", 
 
     "description": "Google search with cookies disabled", 
 
-    "script": "searchHistory.js", 
+    "script": "googleBrowseHistory.js", 
 	
 	"pageLimit": 1,
+	
+	"depthLimit": 1,
 
-    "input": [ "Brexit", "Ireland", "Pakistan" ],
+    "input": "browseDomains.json",
 	
 	"output":{  
 	

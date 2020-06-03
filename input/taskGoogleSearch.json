@@ -1,0 +1,23 @@
+{ 
+
+    "name": "taskGoogleSearch", 
+
+    "description": "Search Experiment Using Google Search Engine", 
+
+    "script": "googleSearch.js", 
+	
+	"pageLimit": 1,
+	
+	"cookiesEnabled": true,
+
+    "input": "input/searchTerms.json", 
+	
+	"output":{  
+	
+      "SERPscreenshots": true, 
+	  
+      "SERPurls": false
+	  
+    } 
+
+} 

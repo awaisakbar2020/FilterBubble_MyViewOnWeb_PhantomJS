@@ -1,7 +1,7 @@
 var system = require('system'),
 	fs = require('fs'),
-	webPage,page,arg1,arg2,res1,res2,
-	script_call,filtered_input1,filtered_input2;
+	webPage,page,arg1,searchTermsFile,
+	script_call,filtered_input1;
 	createPage();
 	
 function createPage()
@@ -14,84 +14,47 @@ function createPage()
 
 function getUserInput()
 {
-	arg1=system.args[1],
-	arg2=system.args[2];
-	if (system.args.length === 2) {
-		console.log('Argument Missing! Please pass both the input file and the configuration file');
+	arg1=system.args[1];
+	if (system.args.length === 1) {
+		console.log('Argument Missing! Please pass the task file');
 		phantom.exit(0);
 	}
 	else
 	{
-		filterAndCheckUserInput();
-	}
-	
-	
+		filtered_input1 = arg1.split("=");
+
+		if(filtered_input1[0]=="--task")
+			{
+				inputfile=filtered_input1[1];
+				readTaskFile();
+		
+			}
+	}	
 }
 
-function filterAndCheckUserInput()
-{
-	filtered_input1 = arg1.split("=");
-	filtered_input2= arg2.split("=");
-
-	if(filtered_input1[0]=="--task")
-	{
-		inputfile=filtered_input1[1];
-		if(filtered_input2[0]=="--config")
-		{
-			configfile=filtered_input2[1];
-			readTaskFile();
-		}
-		else
-		{
-			console.log('Invalid Input! Please try again');
-			phantom.exit(0);
-		}	
-	}
-	else if (filtered_input1[0]=="--config")
-	{
-		configfile=filtered_input1[1];
-		if(res2[0]=="--task")
-		{
-			inputfile=filtered_input2[1];
-			readTaskFile();
-		}
-		else
-		{
-			console.log('Invalid Input! Please try again');
-			phantom.exit(0);
-		}
-	
-	}
-	else
-	{
-		console.log('Invalid Input! Please try again');
-		phantom.exit(0);
-	}
-}
-	
 function readTaskFile()
 {
 	var stream_task = fs.open('input/'+inputfile,'r');
 	var data_task = stream_task.read(); 
 	var config_task = JSON.parse(data_task); 
-	
+	searchTermsFile=config_task.input;
 	window.name=config_task.name;
 	window.description=config_task.description;
 	window.script=config_task.script;
-	window.input=config_task.input;
 	window.output=config_task.output;
 	window.SERPscreenshots=output.SERPscreenshots;
 	window.SERPurls=output.SERPurls;
 	window.pageLimit=config_task.pageLimit;
+	window.enableCookies=config_task.cookiesEnabled;
 	
-	if(config_task.script=="browseHistory.js")
+	if(config_task.script=="googleBrowseHistory.js")
 	{
 
 		window.depthLimit=config_task.depthLimit;
 		
 	}
 	
-	if(config_task.script=="clickHistory.js")
+	if(config_task.script=="googleClickHistory.js")
 	{
 
 		window.clicks=config_task.clicks;
@@ -104,12 +67,24 @@ function readTaskFile()
 
 function readConfigFile()
 {
+	var configfile="config.json";
 	var stream_config = fs.open(configfile,'r');
 	var data_config = stream_config.read(); 
 	var config_c = JSON.parse(data_config); 
 	window.timestampFormat=config_c.timestampFormat;
 	window.version=config_c.version;
 	stream_config.close();
+	readQueries();
+}
+
+function readQueries()
+{
+	
+	var stream_queries = fs.open(searchTermsFile,'r');
+	var data_queries = stream_queries.read(); 
+	var config_queries = JSON.parse(data_queries); 
+	window.input=config_queries.queries;
+	stream_queries.close();
 	callScript();
 }
 

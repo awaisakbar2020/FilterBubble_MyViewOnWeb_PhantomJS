@@ -1,0 +1,23 @@
+{ 
+
+    "name": "taskDuckDuckGoSearch", 
+
+    "description": "Search Experiment Using DuckDuckGo Search Engine", 
+
+    "script": "DuckDuckGoSearch.js", 
+	
+	"pageLimit": 1,
+	
+	"cookiesEnabled": true,
+
+    "input": "input/searchTerms.json",
+	
+	"output":{  
+	
+      "SERPscreenshots": true, 
+	  
+      "SERPurls": false
+	  
+    } 
+
+} 

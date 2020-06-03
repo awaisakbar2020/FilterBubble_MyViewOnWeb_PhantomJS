@@ -31,7 +31,13 @@ system.page_limit = pageLimit;
 system.sleep_page = 5000; //5000;
 system.sleep_error = 5000; //5000;
 system.sleep_query = 60000; // 11000 * 60
-system.clear_cookies = 0;
+
+if(enableCookies) {
+	system.clear_cookies = 1;	
+}
+else {
+	system.clear_cookies = 0;
+}
 
 page.settings.userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.2";
 page.customHeaders = {"Accept-Language":"en"};
@@ -42,26 +48,69 @@ last_num  = null;
 last_fun  = null;
 last_next = null;
 
-
-
 //Logs a message to console together with date and time
  
 function log(msg) {
-    console.log((new Date().getTime()) + ": " + msg);
+   console.log((new Date().getTime()) + ": " + msg);
 }
 
 
 // finds results on the page and saves them to txt file. 
 
 function log_urls(alist) {
-	
-	f = fs.open(output_format + "/URLs/SERP_q" + (system.search_term_index+1) + "_p" + (system.page_index+1)+ ".json", "a");
-    for (var i = 0; i < alist.length; i++)
-    f.writeLine((system.page_index*10 + i) + "\t" + alist[i]);
-	f.close();
+
+var patt1 = /q=related:/;
+var patt2=/news/;
+var patt3 = /q=cache:/;
+var patt4=/google/;
+var patt5=/youtube/;
+var patt6=/webcache/;
+
+var urls=[];
+var url_index=[];
+var length=alist.length;
+for(var i=0;i<length;i++)
+{
+	if(urls.indexOf(alist[i])==-1)
+	{
+		if (patt2.test(alist[i])){
+		
+			if(!patt3.test(alist[i]) && !patt4.test(alist[i]))
+			{
+		
+					urls.push(alist[i]);
+					url_index.push(system.page_index*10 + i);
+		
+			}
+			
+		
+	}
+	else if(!patt1.test(alist[i]) && !patt4.test(alist[i]) && !patt5.test(alist[i]) && !patt6.test(alist[i]))
+	{
+		if(alist[i]!="")
+		{
+			urls.push(alist[i]);
+			url_index.push(system.page_index*10 + i);
+		}
+
+	}
+		
+		
+	}
 	
 }
 
+f = fs.open(output_format + "/URLs/SERP_q" + (system.search_term_index+1) + "_p" + (system.page_index+1)+ ".json", "a");
+
+for(var j=0;j<urls.length;j++)
+{
+	f.writeLine((url_index[j]) + "\t" + urls[j]);
+	
+}
+	
+f.close();	
+	
+}
 
 // drops the content of the webpage to .html file and renders the graphical representation to .png file
 
@@ -207,11 +256,10 @@ function search(status) {
     if (system.search_term_index < system.search_terms.length) {
 
   
-      console.log('Searching query........');
+      console.log('Searching Query: '+system.search_terms[system.search_term_index]+" .................");
       if (page.evaluate(function() { return ($('input[name="q"]') !== null); })) {
-    actionlog.writeLine("search ie6 search box " + system.search_terms[system.search_term_index]);
+    actionlog.writeLine("search search box " + system.search_terms[system.search_term_index]);
     actionlog.flush();
-    console.log(system.search_terms[system.search_term_index]);
     page.evaluate(function(str) { $('input[name="q"]').val(str); }, system.search_terms[system.search_term_index]);
     next_page(2, "$('form').submit();", get_results);
       }
