@@ -245,7 +245,7 @@ function get_results(status) {
 // Runs the google search
 
 function search(status) {
-	console.log("search status is: "+search);
+	
     if (!check_page(2, status)) return;
 
     actionlog.writeLine("search");

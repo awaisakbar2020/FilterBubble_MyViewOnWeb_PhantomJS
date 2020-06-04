@@ -4,9 +4,9 @@
 
     "description": "Search Results Comparison of Google and DuckDuckGo", 
 
-    "inputFile1": "output/taskGoogleSearch/2020-06-04_00-47-23-530/URLs/all_SERP_names.json", 
+    "inputFile1": "output/taskDuckDuckGoSearch/2020-06-04_20-23-12-466/URLs/all_SERP_names.json", 
 	
-	"inputFile2": "output/taskGoogleSearch/2020-06-04_00-47-23-530/URLs/all_SERP_names2.json"
+	"inputFile2": "output/taskGoogleSearch/2020-06-04_19-59-40-939/URLs/all_SERP_names.json"
 	
 
 } 

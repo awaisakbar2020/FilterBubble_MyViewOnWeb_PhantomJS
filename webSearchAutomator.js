@@ -90,13 +90,17 @@ function readQueries()
 
 function callScript()
 {
-	console.log('******************************************************');
-	console.log('Welcome to version '+version+' of the Web Search Automator');
-	console.log('******************************************************');
-	console.log("Your task details are as follows:");
-	console.log("Task Name: "+window.name);
-	console.log("Task Description: "+window.description);
-	console.log("Search Terms: "+window.input);
-	console.log("Google search has been started. Please wait.......");
+	console.log('----------------------------------------------------------------------------------------------------');
+	console.log('==============>     Welcome to version '+version+' of the Web Search Automator     <==============');
+	console.log('----------------------------------------------------------------------------------------------------');
+	console.log("\n"+"Your task details are as follows:");
+	console.log("\n"+"Task Name: "+name);
+	console.log("\n"+"Task Description: "+description);
+	console.log("\n"+"Search Terms: "+"\n");
+	for(var s=0;s<input.length;s++)
+	{
+		console.log('#'+(s+1)+'- '+input[s]);
+	}
+	console.log("\n"+"Web Search has been started. Please wait......."+"\n");
 	script_call = require("./"+script);	
 }
