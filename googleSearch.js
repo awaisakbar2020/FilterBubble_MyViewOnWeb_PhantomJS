@@ -1,7 +1,7 @@
 var fs = require("fs"),
 	system = require('system'),
 	moment = require("./libraries/moment.min.js"),
-	webpage, page, dateTime, output_format;
+	webpage, page, dateTime, output_format, serpPages;
 	createPage();
 	
 function createPage()
@@ -21,6 +21,7 @@ function createTimeStampFormat(time_stamp_format)
 output_format="output/"+name+"/"+dateTime;  //e.g. output/taskSearch/2020-05-27_19-22-44-164
 
 var DEBUG  = 1;
+var serp_pages=[];
 
 system.search_terms = [];
 system.search_terms=input;
@@ -101,13 +102,14 @@ for(var i=0;i<length;i++)
 }
 
 f = fs.open(output_format + "/URLs/SERP_q" + (system.search_term_index+1) + "_p" + (system.page_index+1)+ ".json", "a");
+serpPages=output_format + "/URLs/SERP_q" + (system.search_term_index+1) + "_p" + (system.page_index+1)+ ".json";
+serp_pages.push(serpPages);
 
-for(var j=0;j<urls.length;j++)
-{
-	f.writeLine((url_index[j]) + "\t" + urls[j]);
-	
-}
-	
+const jsonURLs = JSON.stringify(urls);
+const url_indices=JSON.stringify(url_index);
+
+f.writeLine('{'+'\n\n'+'"serp_urls": '+jsonURLs+','+'\n\n');
+f.writeLine('"serp_urls_indices": '+url_indices+'\n\n'+'}');
 f.close();	
 	
 }
@@ -273,6 +275,11 @@ function search(status) {
     
     else {
   log("Done with all search terms -- exiting");
+  
+  const jsonPageContent = JSON.stringify(serp_pages);
+  f = fs.open(output_format + "/URLs/all_SERP_names.json", "a");
+  f.writeLine('{'+'\n\n'+'"serp_names": '+jsonPageContent+'\n\n'+'}');
+  f.close();
   phantom.exit();
     }
 }
