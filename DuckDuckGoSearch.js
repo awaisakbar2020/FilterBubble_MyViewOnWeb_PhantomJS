@@ -109,7 +109,10 @@ function log_html(content) {
 // ran when the page is loaded succesfully
 
 function load_finished(status) {
-    var prev_load_finished = page.load_finished;
+	
+	setTimeout(function(){ 
+	
+	var prev_load_finished = page.load_finished;
     page.load_finished = null;
 
     if (prev_load_finished !== null) actionlog.writeLine("load_finished " + status);
@@ -117,9 +120,11 @@ function load_finished(status) {
     actionlog.flush();
 
     if (prev_load_finished !== null)
-  prev_load_finished(status);
+    prev_load_finished(status);
+	
+	}, 30000);
+    
 }
-
 
 // logs a message and dies
 
@@ -238,13 +243,11 @@ function search(status) {
     
     
     if (system.search_term_index < system.search_terms.length) {
-
-  
-      console.log('Searching query........');
+		
       if (page.evaluate(function() { return ($('input[name="q"]') !== null); })) {
     actionlog.writeLine("search ie6 search box " + system.search_terms[system.search_term_index]);
     actionlog.flush();
-    console.log(system.search_terms[system.search_term_index]);
+    console.log('Searching Query: '+ system.search_terms[system.search_term_index]+' ....................');
     page.evaluate(function(str) { $('input[name="q"]').val(str); }, system.search_terms[system.search_term_index]);
     next_page(2, "$('form').submit();", get_results);
       }
