@@ -26,8 +26,7 @@ function getUserInput()
 		if(filtered_input1[0]=="--task")
 			{
 				inputfile=filtered_input1[1];
-				readTaskFile();
-		
+				readTaskFile();	
 			}
 	}	
 }

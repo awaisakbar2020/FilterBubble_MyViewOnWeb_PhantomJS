@@ -10,7 +10,7 @@
 	
 	"depthLimit": 1,
 
-    "input": "browseDomains.json",
+    "input": "input/taskBrowse/browseDomains.json",
 	
 	"output":{  
 	

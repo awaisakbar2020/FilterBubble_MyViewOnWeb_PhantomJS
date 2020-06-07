@@ -37,7 +37,7 @@ function getUserInput()
 
 function readTaskFile()
 {
-	var stream_task = fs.open('input/'+inputfile,'r');
+	var stream_task = fs.open('input/taskAnalyse/'+inputfile,'r');
 	var data_task = stream_task.read(); 
 	var config_task = JSON.parse(data_task); 
 	name=config_task.name;
@@ -83,7 +83,7 @@ function openSERPNameFiles()
 
 function compareResults()
 {
-	var output_format="output/"+name+"/"+dateTime;
+	var output_format="Analysis/"+name+"/"+dateTime;
 	f = fs.open(output_format + "/resultsComparison.txt", "a");
 	f.writeLine('###########################     Comparison of Google & DuckDuckGo Search Results     ###########################\n');
 	f.close();

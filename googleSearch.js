@@ -8,7 +8,7 @@ function createPage()
 {
 	webPage = require("webpage");
 	page = webPage.create();
-	page.viewportSize = { width: 1280, height: 800 };
+	page.viewportSize = { width: 1380, height: 800 };
 	createTimeStampFormat(timestampFormat);
 
 }
@@ -31,13 +31,13 @@ system.page_index = 0;
 system.page_limit = pageLimit;
 system.sleep_page = 5000; //5000;
 system.sleep_error = 5000; //5000;
-system.sleep_query = 60000; // 11000 * 60
+system.sleep_query = 660000; // 11000 * 60
 
 if(enableCookies) {
-	system.clear_cookies = 1;	
+	system.clear_cookies = 0;	
 }
 else {
-	system.clear_cookies = 0;
+	system.clear_cookies = 1;
 }
 
 page.settings.userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.2";

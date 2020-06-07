@@ -1,2 +1,2 @@
-phantomjs webSearchAutomator.js --task=taskGoogleSearch.json
-phantomjs webSearchAutomator.js --task=taskDuckDuckGoSearch.json
+phantomjs webSearchAutomator.js --task=taskSearch/taskGoogleSearch.json
+phantomjs webSearchAutomator.js --task=taskSearch/taskDuckDuckGoSearch.json
