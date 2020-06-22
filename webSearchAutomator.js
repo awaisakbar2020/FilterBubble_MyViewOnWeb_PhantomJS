@@ -1,9 +1,30 @@
+/*
+ * webSearchAutomator.js
+ * 
+ * by: Awais Akbar
+ * 
+ * Goal: Takes a task as input and call the required script accordingly. e.g., for taskGoogleSearch, it reads all information and call googleSearch.js script
+ * 
+ * Usage:
+ * phantomjs webSearchAutomator.js --task=[] 
+ * 
+ * Example : Search Experiment:
+ * phantomjs webSearchAutomator.js --task=taskSearch/taskGoogleSearch.json
+ *
+ * Example : Browse Experiment:
+ * phantomjs webSearchAutomator.js --task=taskBrowse/taskDuckDuckGoBrowse.json
+ * 
+ */
+
 var system = require('system'),
 	fs = require('fs'),
 	webPage,page,arg1,searchTermsFile,
 	script_call,filtered_input1;
 	createPage();
-	
+
+/**
+ * requires a reference to the webpage module then uses it to create an instance
+ */	
 function createPage()
 {
 	webPage = require('webpage');
@@ -12,6 +33,9 @@ function createPage()
 	
 }
 
+/**
+ * gets the task file as input e.g taskGoogleSearch
+ */
 function getUserInput()
 {
 	arg1=system.args[1];
@@ -31,6 +55,9 @@ function getUserInput()
 	}	
 }
 
+/**
+ * extracts all the information from task file
+ */
 function readTaskFile()
 {
 	var stream_task = fs.open('input/'+inputfile,'r');
@@ -46,17 +73,10 @@ function readTaskFile()
 	window.pageLimit=config_task.pageLimit;
 	window.enableCookies=config_task.cookiesEnabled;
 	
-	if(config_task.script=="googleBrowseHistory.js")
+	if(script.indexOf("Browse")!=-1)
 	{
 
 		window.depthLimit=config_task.depthLimit;
-		
-	}
-	
-	if(config_task.script=="googleClickHistory.js")
-	{
-
-		window.clicks=config_task.clicks;
 		
 	}
 	
@@ -64,6 +84,9 @@ function readTaskFile()
 	readConfigFile();
 }
 
+/**
+ * extracts all the information from configuration file e.g. timestampFormat
+ */
 function readConfigFile()
 {
 	var configfile="config.json";
@@ -76,17 +99,32 @@ function readConfigFile()
 	readQueries();
 }
 
+/**
+ * gets the name of search term file and extracts all queries from it
+ */
 function readQueries()
 {
-	
 	var stream_queries = fs.open(searchTermsFile,'r');
 	var data_queries = stream_queries.read(); 
 	var config_queries = JSON.parse(data_queries); 
-	window.input=config_queries.queries;
+	
+	if(searchTermsFile.indexOf("searchTerms")!=-1)
+	{
+		window.input=config_queries.queries;
+		
+	}
+	else
+	{
+		window.input=config_queries.input;
+	}
+	
 	stream_queries.close();
 	callScript();
 }
 
+/**
+ * calls the required script as mentioned in task file for completion of respective task
+ */
 function callScript()
 {
 	console.log('----------------------------------------------------------------------------------------------------');
@@ -95,11 +133,25 @@ function callScript()
 	console.log("\n"+"Your task details are as follows:");
 	console.log("\n"+"Task Name: "+name);
 	console.log("\n"+"Task Description: "+description);
-	console.log("\n"+"Search Terms: "+"\n");
-	for(var s=0;s<input.length;s++)
+	
+	if(script.indexOf("Search")!=-1)
 	{
-		console.log('#'+(s+1)+'- '+input[s]);
+		console.log("\n"+"Search Terms: "+"\n");
+		for(var s=0;s<input.length;s++)
+		{
+			console.log('#'+(s+1)+'- '+input[s]);
+		}
+		console.log("\n"+"Search Experiment has been started. Please wait......."+"\n");
 	}
-	console.log("\n"+"Web Search has been started. Please wait......."+"\n");
+	else
+	{
+		console.log("\n"+"Browsing Domains: "+"\n");
+		for(var s=0;s<input.length;s++)
+		{
+			console.log('#'+(s+1)+'- '+input[s]);
+		}
+		console.log("\n"+"Browsing History Experiment has been started. Please wait......."+"\n");
+	}
+	
 	script_call = require("./"+script);	
 }

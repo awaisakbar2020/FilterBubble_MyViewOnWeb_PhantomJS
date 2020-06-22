@@ -8,7 +8,7 @@
 	
 	"pageLimit": 1,
 	
-	"cookiesEnabled": false,
+	"cookiesEnabled": true,
 
     "input": "input/taskSearch/searchTerms.json",
 	

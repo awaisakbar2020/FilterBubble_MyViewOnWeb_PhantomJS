@@ -1,0 +1,14 @@
+{ 
+
+    "name": "taskAnalyseSearchResults", 
+
+    "description": "Search Results Comparison of Two Search Experiments", 
+	
+    "inputFile1": "output/taskDuckDuckGoSearch/2020-06-07_02-48-58-592/URLs/all_SERP_names.json", 
+	
+	"inputFile2": "output/taskDuckDuckGoSearch/2020-06-08_16-06-15-363/URLs/all_SERP_names.json",
+	
+	"sameSearchEngine": true
+	
+
+} 

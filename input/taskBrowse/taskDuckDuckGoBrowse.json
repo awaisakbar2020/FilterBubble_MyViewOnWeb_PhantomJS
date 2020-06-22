@@ -1,10 +1,10 @@
 { 
 
-    "name": "taskGoogleBrowse", 
+    "name": "taskDuckDuckGoBrowse", 
 
-    "description": "Google Browse History Experiment (Cookies Enabled)", 
+    "description": "DuckDuckGo Browse History Experiment (Cookies Enabled)", 
 
-    "script": "googleBrowseHistory.js", 
+    "script": "duckduckgoBrowseHistory.js", 
 	
 	"pageLimit": 2,
 	

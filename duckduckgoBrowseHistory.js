@@ -1,5 +1,5 @@
 /*
- * googleBrowseHistory.js
+ * duckduckgoBrowseHistory.js
  * 
  * by: Awais Akbar
  * 
@@ -74,7 +74,6 @@ var DEBUG1 = 1;
 var DEBUG2 = 1;
 var DEBUG3 = 0;
 
-
 /**
  * Logs a message to console together with date and time
  * @param msg
@@ -83,7 +82,7 @@ function log(msg) {
   console.log((new Date().getTime()) + ": " + msg);
 }
 
-/**
+ /**
  * drops the content of the webpage to .html file and renders the graphical representation to .png file
  * @param content
  */
@@ -146,7 +145,6 @@ function load_finished(status) {
   }, 30000);
   
 }
-
 /**
  * logs a message and dies
  * @param message
@@ -193,7 +191,6 @@ function get_all_links(CurrentDomain){
   return ValLinks;
 }
 
-
 /**
  * checks if the given link is a redirecting link, or a javascript link
  * @param textval
@@ -203,6 +200,7 @@ function ValidateURL(textval) {
   var urlregex = new RegExp("^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$");
     return urlregex.test(textval);
 }
+
 
 /**
  * Used to browse to the next page on the list
@@ -278,7 +276,6 @@ function log_settings(){
 }
 
 
-
 /*-----------------------------
  * Main body of the code:
  -----------------------------*/
@@ -287,7 +284,7 @@ log_settings();
     var current_url = system.url_terms[system.url_term_index];
     page.load_finished  = next_browse(("http://"+current_url), get_results);;
     page.onLoadFinished = load_finished;
-    page.open("http://www.google.com/");
+    page.open("https://duckduckgo.com/");
 
 /*------------------------------
  -------------------------------*/

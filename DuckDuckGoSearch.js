@@ -1,21 +1,49 @@
+/*
+ * duckduckgoSearch.js
+ * 
+ * by: Awais Akbar
+ * 
+ * Goal: Gets a list of queries as input and search them one by one
+ * 
+ * optional flags:
+ *
+ *    clear_cookies:clears cookies after each query, DEFAULT: No (won't clear cookies)
+ *    page_limit:   number of search engine result pages that are retrieved 
+ *    retry_limit:  number of retrys before skipping, DEFAULT: 3
+ *    sleep_page :  sleep time (ms) between clicks within a domain, DEFAUL: 5000
+ *    sleep_query:  sleep time (ms) between queries, DEFAUL: 5000
+ *    sleep_retry:  sleep time (ms) between retries, DEFAUL: 5000
+ *    user-agent:   sets the user-agent, DEFAUL: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.6"
+ */
+
+
 var fs = require("fs"),
 	system = require('system'),
 	moment = require("./libraries/moment.min.js"),
 	webpage, page, dateTime, output_format, serpPages;
 	createPage();
-	
+
+/**
+ * requires a reference to the webpage module then use it to create an instance
+ */
 function createPage()
 {
 	webPage = require("webpage");
 	page = webPage.create();
-	page.viewportSize = { width: 1280, height: 800 };
-	createTimeStampFormat(timestampFormat);
+	page.viewportSize = { width: 1380, height: 800 };
+	dateTime=createTimeStampFormat(timestampFormat);
 
 }
-	
+
+/**
+ * creates timestamp according to user defined time stamp format, uses moment.js
+ * @param time_stamp_format
+ * @return userTimeStampFormat
+ */
 function createTimeStampFormat(time_stamp_format)
 {
-	dateTime= moment().format(time_stamp_format);
+	var userTimeStampFormat= moment().format(time_stamp_format);
+	return userTimeStampFormat;
 }
 
 output_format="output/"+name+"/"+dateTime;  //e.g. output/taskSearch/2020-05-27_19-22-44-164
@@ -31,7 +59,7 @@ system.page_index = 0;
 system.page_limit = pageLimit;
 system.sleep_page = 5000; //5000;
 system.sleep_error = 5000; //5000;
-system.sleep_query = 660000; // 11000 * 60
+system.sleep_query = 60000; // 11000 * 60
 
 if(enableCookies) {
 	system.clear_cookies = 0;	
@@ -49,15 +77,19 @@ last_num  = null;
 last_fun  = null;
 last_next = null;
 
-//Logs a message to console together with date and time
- 
+/**
+ * Logs a message to console together with date and time
+ * @param msg
+ */
 function log(msg) {
     console.log((new Date().getTime()) + ": " + msg);
 }
 
 
-// finds results on the page and saves them to file on disk. 
-
+/**
+ * finds results on search engine result page and saves them to json file. 
+ * @param alist
+ */
 function log_urls(alist) {
 
 var patt1 = /duckduckgo/;
@@ -69,6 +101,7 @@ var patt4=/javascript/;
 var urls=[];
 var url_index=[];
 var length=alist.length;
+
 for(var i=0;i<length;i++)
 {
 	
@@ -81,7 +114,6 @@ for(var i=0;i<length;i++)
 		}
 	}
 }
-
 
 f = fs.open(output_format + "/URLs/SERP_q" + (system.search_term_index+1) + "_p" + (system.page_index+1)+ ".json", "a");
 serpPages=output_format + "/URLs/SERP_q" + (system.search_term_index+1) + "_p" + (system.page_index+1)+ ".json";
@@ -96,8 +128,10 @@ f.close();
 	
 }
 
-// drops the content of the webpage to .html file and renders the graphical representation to .png file
-
+/**
+ * drops the content of the webpage to .html file and renders the graphical representation to .png file
+ * @param content
+ */
 function log_html(content) {
   page.render(output_format + "/Screenshots/SERP_q" + (system.search_term_index+1) + "_p" + (system.page_index+1) + ".png");
   f = fs.open(output_format + "/HTML Pages/SERP_q" + (system.search_term_index+1) + "_p" + (system.page_index+1)+ ".html", "a");
@@ -106,8 +140,10 @@ function log_html(content) {
 }
 
 
-// ran when the page is loaded succesfully
-
+/**
+ * ran when the page is loaded succesfully
+ * @param status
+ */
 function load_finished(status) {
 	
 	setTimeout(function(){ 
@@ -126,8 +162,10 @@ function load_finished(status) {
     
 }
 
-// logs a message and dies
-
+/**
+ * logs a message and dies
+ * @param message
+ */
 function die_with_error(message) {
     actionlog.writeLine("die_with_error " + message);
     actionlog.flush();
@@ -137,8 +175,12 @@ function die_with_error(message) {
 }
 
 
-// goes to next page
-
+/**
+ * goes to next page
+ * @param num
+ * @param fun
+ * @param next
+ */
 function next_page(num, fun, next) {
     actionlog.writeLine("next_page " + num + " " + fun);
     actionlog.flush();
@@ -163,8 +205,11 @@ function next_page(num, fun, next) {
 }
 
 
-// reruns the search if failed, does nothing otherwise
-
+/**
+ * reruns the search if failed, does nothing otherwise
+ * @param num
+ * @param status
+ */
 function check_page(num, status) {
 	
     actionlog.writeLine("check_page " + num + " (" + system.search_terms[system.search_term_index] + " page " + system.page_index + ")");
@@ -195,8 +240,10 @@ function check_page(num, status) {
 }
 
 
-// saves the page to html and png files, then either goes to the next page with results or searches for next item on the list
-
+/**
+ * saves the page to html and png files, then either goes to the next page with results or searches for next item on the list
+ * @param status
+ */
 function get_results(status) {
     if (!check_page(3, status)) return;
 
@@ -229,8 +276,10 @@ function get_results(status) {
 }
 
 
-// Runs the google search
-
+/**
+ * Runs the duckduckgo search
+ * @param status
+ */
 function search(status) {
 	
     if (!check_page(2, status)) return;
@@ -254,7 +303,6 @@ function search(status) {
       else{
         system.search_term_index--;
         prepare_for_search(status);
-         //die_with_error("Could not find search box");
         }
 
     }
@@ -269,8 +317,10 @@ function search(status) {
     }
 }
 
-// Intermediate function ran in case of error
-
+/**
+ * Intermediate function ran in case of error
+ * @param status
+ */
 function prepare_for_search(status) {
 		console.log("inside prepare_for_search");
         page.render('dummy.png');
@@ -279,6 +329,13 @@ function prepare_for_search(status) {
         interval = setInterval(function() { clearInterval(interval); search(status); }, 5000);
 }
 
+/*-----------------------------
+ * Main body of the code:
+ -----------------------------*/
+ 
     page.load_finished = search;
     page.onLoadFinished = load_finished;
-    page.open("https://duckduckgo.com/");    
+    page.open("https://duckduckgo.com/"); 
+
+/*------------------------------
+ -------------------------------*/		
